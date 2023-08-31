@@ -7,6 +7,7 @@ const app = express();
 
 app.get('/', (req, res) => {
     // Send the index.html in assets folder (which is in the parent directory)
+    res.setHeader('Content-Type', 'text/html');
     res.sendFile(path.join(__dirname, '../assets/index.html'));
 });
 

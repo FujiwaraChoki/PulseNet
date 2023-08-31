@@ -12,6 +12,7 @@ layout = [
     [sg.Checkbox("OS Version", key="osversion")],
     [sg.Checkbox("Browser Version", key="browserversion")],
     [sg.Checkbox("Installed Browser Plug-Ins", key="plugins")],
+    [sg.Checkbox("Cookies", key="cookies")],
     [sg.Text("Template File"), sg.FileBrowse( key="template")],
     [sg.Button("Generate URL", key="gen"), sg.Button("Exit")]
 ]

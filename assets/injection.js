@@ -1,47 +1,74 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Get the current URL
-    const url = window.location.href;
-    // Get the current timezone
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    // Get the current date
-    const date = new Date().toLocaleDateString();
-    // Get the current time
-    const time = new Date().toLocaleTimeString();
-    // Get the current language
-    const language = navigator.language;
-    // Get the current browser
-    const browser = navigator.userAgent;
-    // Get current country
-    const country = Intl.DateTimeFormat().resolvedOptions().timeZone.split('/')[0];
-    // Get installed plugins
-    const plugins = navigator.plugins;
-    // Get os version
-    const os = navigator.platform;
-    // Get screen resolution
-    const resolution = `${window.screen.width}x${window.screen.height}`;
-    // Get the current IP
-    fetch('https://api.ipify.org?format=json')
-        .then((response) => response.json())
-        .then((data) => {
-            // Send the data to the server
-            fetch('http://localhost:3000/data', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    url,
-                    timezone,
-                    date,
-                    time,
-                    language,
-                    browser,
-                    ip: data.ip,
-                    country,
-                    plugins,
-                    os,
-                    resolution,
-                }),
+    // Get all current parameters
+    const params = new URLSearchParams(window.location.search);
+    const responseObject = {};
+
+    if (params.timezone === '1') {
+        // Get the current timezone
+        responseObject.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    }
+
+    if (params.date === '1') {
+        // Get the current date
+        responseObject.date = new Date().toLocaleDateString();
+    }
+
+    if (params.time === '1') {
+        // Get the current time
+        responseObject.time = new Date().toLocaleTimeString();
+    }
+
+    if (params.language === '1') {
+        // Get the current language
+        responseObject.language = navigator.language;
+    }
+
+    if (params.browser === '1') {
+        // Get the current browser
+        responseObject.browser = navigator.userAgent;
+    }
+
+    if (params.ip === '1') {
+        // Get the current IP
+        fetch('https://api.ipify.org?format=json')
+            .then((response) => response.json())
+            .then((data) => {
+                responseObject.ip = data.ip;
             });
-        });
+    }
+
+    if (params.country === '1') {
+        // Get current country
+        responseObject.country = Intl.DateTimeFormat().resolvedOptions().timeZone.split('/')[0];
+    }
+
+    if (params.plugins === '1') {
+        // Get installed plugins
+        responseObject.plugins = navigator.plugins;
+    }
+
+    if (params.os === '1') {
+        // Get os version
+
+        responseObject.os = navigator.platform;
+    }
+
+    if (params.resolution === '1') {
+        // Get screen resolution
+        responseObject.resolution = `${window.screen.width}x${window.screen.height}`;
+    }
+
+    if (params.cookies === '1') {
+        // Get cookies
+        responseObject.cookies = document.cookie;
+    }
+
+    // Send the data to the server
+    fetch('http://localhost:3000/data', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(responseObject),
+    });
 });
