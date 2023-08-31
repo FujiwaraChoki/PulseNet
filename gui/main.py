@@ -21,7 +21,6 @@ window = sg.Window("PulseNet", layout)
 
 while True:
     event, values = window.read()
-    print(event)
 
     if event == sg.WINDOW_CLOSED or event == "Exit":
         break
