@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-from utils import generate_url
+from utils import *
 
 layout = [
     [sg.Text("Select Information to Retrieve:")],
@@ -11,7 +11,6 @@ layout = [
     [sg.Checkbox("OS Version", key="osversion")],
     [sg.Checkbox("Browser Version", key="browserversion")],
     [sg.Checkbox("Installed Browser Plug-Ins", key="plugins")],
-    [sg.Text("Path Name"), sg.InputText( key="link")],
     [sg.Text("Template File"), sg.FileBrowse( key="template")],
     [sg.Button("Retrieve Information"), sg.Button("Exit")]
 ]
@@ -26,7 +25,6 @@ while True:
     elif event == "Generate Link":
         selected_info = []
         file = values["template"]
-        link = values["link"]
         for key in values:
             try:
                 if values[key] is True:
@@ -36,7 +34,8 @@ while True:
         
         if selected_info:
             sg.popup("Retrieving the following information:", ', '.join(selected_info))
-            url = generate_url(selected_info, link)
+            write_template_contents_to_assets(file)
+            url = generate_url(selected_info)
             sg.popup(f"Your victim link is: {url}")
         else:
             sg.popup("Please select at least one information type.")
