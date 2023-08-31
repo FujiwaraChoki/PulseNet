@@ -1,4 +1,3 @@
-import shorten_url
 from typing import List
 
 def generate_url(selected_info: List[str]):
@@ -10,10 +9,10 @@ def generate_url(selected_info: List[str]):
     Returns:
         str: A shortened URL that can be used to retrieve the selected information.
     """
-    url = f"http://localhost:8000/?"
+    url = f"http://localhost:3000/?"
     for info in selected_info:
         url += f"{info}=1&"
-    return shorten_url.short(url[:-1])
+    return url[:-1]
 
 def write_template_contents_to_assets(template_file_path: str):
     """Writes the contents of the template file to the assets folder.
